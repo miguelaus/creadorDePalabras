@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generador de Palabras</title>
+<style>
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+#palabra-generada {
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+</style>
+</head>
+<body>
+<h1>Generador de Palabras</h1>
+<button onclick="generarPalabra()">Dame mi palabra</button>
+<p id="palabra-generada"></p>
+
+<script>
+function generarPalabra() {
+    var longitud = Math.floor(Math.random() * 7) + 4; // Longitud entre 4 y 10
+    var palabra = '';
+    var vocales = 'aeiou';
+    var consonantes = 'bcdfghjklmnñpqrstvwxyz';
+    var maxVocalesSeguidas = 2;
+    var maxConsonantesSeguidas = 2;
+    var numVocalesSeguidas = 0;
+    var numConsonantesSeguidas = 0;
+
+    for (var i = 0; i < longitud; i++) {
+        // Si la longitud actual de la palabra es par, se agrega una consonante
+        if (i % 2 === 0) {
+            // Verificar si ya hay 2 consonantes seguidas
+            if (numConsonantesSeguidas >= maxConsonantesSeguidas) {
+                palabra += vocales.charAt(Math.floor(Math.random() * vocales.length));
+                numConsonantesSeguidas = 0; // Reinicia el contador de consonantes seguidas
+            } else { // Si no, se agrega una consonante
+                palabra += consonantes.charAt(Math.floor(Math.random() * consonantes.length));
+                numConsonantesSeguidas++;
+            }
+            numVocalesSeguidas = 0; // Reinicia el contador de vocales seguidas
+        } else { // Si es impar, se agrega una vocal
+            // Se verifica si ya hay 2 vocales seguidas
+            if (numVocalesSeguidas >= maxVocalesSeguidas) {
+                palabra += consonantes.charAt(Math.floor(Math.random() * consonantes.length));
+                numVocalesSeguidas = 0; // Reinicia el contador de vocales seguidas
+            } else { // Si no, se agrega una vocal
+                palabra += vocales.charAt(Math.floor(Math.random() * vocales.length));
+                numVocalesSeguidas++;
+            }
+            numConsonantesSeguidas = 0; // Reinicia el contador de consonantes seguidas
+        }
+    }
+
+    document.getElementById('palabra-generada').innerText = palabra;
+}
+</script>
+</body>
+</html>
